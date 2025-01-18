@@ -1,0 +1,13 @@
+Product: Smartphone XYZ
+Features:
+- Display: 6.5-inch OLED
+- Processor: Octa-core 3.2 GHz
+- Battery: 4500mAh with fast charging
+- Camera: 108MP + 12MP ultra-wide + 8MP telephoto
+
+Product: Laptop ABC
+Features:
+- Processor: Intel Core i7, 11th Gen
+- RAM: 16GB DDR4
+- Storage: 512GB SSD
+- Display: 15.6-inch Full HD

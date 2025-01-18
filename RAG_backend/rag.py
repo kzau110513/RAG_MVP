@@ -1,21 +1,35 @@
 import os
+from connectDB import get_connection
 
 # Step 1: Collect Data
 
-data_files = ["data/doc1.txt", "data/doc2.txt"]  # Add your files here
+folder_path = os.path.join(os.path.dirname(__file__), '..', 'data')  # Add your files here
+
 
 # Step 2: Preprocess Data
 documents = []
-for file in data_files:
-    with open(file, 'r', encoding='utf-8') as f:
-        documents.append(f.read())
-
+for root, dirs, files in os.walk(folder_path):
+    for file in files:
+        with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
+            documents.append((f.name, f.read()))
+print(documents)
 #3. Create Embeddings
 
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_openai import OpenAIEmbeddings
 
-# Initialize OpenAI embedding model
-embedding_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# Create embeddings for each document
-embeddings = [embedding_model.embed_query(doc) for doc in documents]
+# vector_store = PostgresVector(
+#     connection_string=DATABASE_URL,
+#     embedding_dimension=1536,  # Adjust based on your embedding model
+#     table_name="documents"
+# )
+
+# vector_store.add_texts(
+#     texts=[doc[1] for doc in documents],
+#     metadatas=[doc[0] for doc in documents],
+#     embedding=embedding_model
+# )
+
+# file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'source.txt')
