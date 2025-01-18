@@ -26,10 +26,10 @@ embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-Mi
 #     table_name="documents"
 # )
 
-# vector_store.add_texts(
-#     texts=[doc[1] for doc in documents],
-#     metadatas=[doc[0] for doc in documents],
-#     embedding=embedding_model
-# )
+vector_store.add_texts(
+    texts=[doc[1] for doc in documents],
+    metadatas=[doc[0] for doc in documents],
+    embedding=embedding_model
+)
 
 # file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'source.txt')
