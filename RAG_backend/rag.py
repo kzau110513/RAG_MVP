@@ -12,7 +12,7 @@ documents = []
 for root, dirs, files in os.walk(folder_path):
     for file in files:
         with open(os.path.join(root, file), 'r', encoding='utf-8') as f:
-            documents.append((f.name, f.read()))
+            documents.append((f.read(), os.path.basename(f.name)))
 # print(documents)
 #3. Create Embeddings
 
@@ -29,10 +29,24 @@ vector_store = PGVector(
     use_jsonb=True,
 )
 
-# vector_store.add_texts(
-#     texts=[doc[1] for doc in documents],
-#     metadatas=[doc[0] for doc in documents],
-#     embedding=embedding_model
-# )
+#4. Add Documents to Vector Store
+from langchain_core.documents import Document
+documents = [Document(id=documents[i][1], page_content=documents[i][0], metadata={"source": documents[i][1]}) for i in range(len(documents))]
+# documents = [Document(page_content=documents[i][0], metadata={"source": documents[i][1]}) for i in range(len(documents))]
+for document in documents:
+    vector_store.add_documents(documents)
 
-# file_path = os.path.join(os.path.dirname(__file__), '..', 'data', 'source.txt')
+#5. Get Document by ID
+print(vector_store.get_by_ids([document.id for document in documents]))
+
+#6. Query the Vector Store
+# results = vector_store.similarity_search(query="what about the climate change",k=1)
+# for doc in results:
+#     print(f"* {doc.page_content} [{doc.metadata}]")
+
+#7. Delete the Collection
+# vector_store.delete_collection()
+# vector_store.delete(ids=["climate_change.txt"])
+
+
+
