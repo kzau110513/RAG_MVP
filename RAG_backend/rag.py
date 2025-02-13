@@ -4,7 +4,7 @@ from langchain_postgres import PGVector
 
 # Step 1: Collect Data
 
-folder_path = os.path.join(os.path.dirname(__file__), '..', 'data')  # Add your files here
+folder_path = os.path.join(os.path.dirname(__file__), 'data')  # Add your files here
 
 
 # Step 2: Preprocess Data
@@ -33,8 +33,8 @@ vector_store = PGVector(
 from langchain_core.documents import Document
 documents = [Document(id=documents[i][1], page_content=documents[i][0], metadata={"source": documents[i][1]}) for i in range(len(documents))]
 # documents = [Document(page_content=documents[i][0], metadata={"source": documents[i][1]}) for i in range(len(documents))]
-for document in documents:
-    vector_store.add_documents(documents)
+# print(documents)
+vector_store.add_documents(documents)
 
 #5. Get Document by ID
 print(vector_store.get_by_ids([document.id for document in documents]))
